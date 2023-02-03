@@ -44,5 +44,5 @@ app.*.map.json
 /android/app/release
 
 # Hide api keys, secrets, etc - TODO: do this better
-/ios/Runner/AppDelegate.swift
-/android/app/src/main/AndroidManifest.xml
+**/ios/Runner/AppDelegate.swift
+**/android/app/src/main/AndroidManifest.xml
