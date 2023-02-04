@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heatmap/widgets/list_item.dart';
+import 'package:heatmap/widgets/list_card.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key });
@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
       itemCount: datasets.length,
       itemBuilder: (BuildContext context, int index) {
         var dataset = datasets[index];
-        return ListItem(title: dataset.title, csvPath: dataset.csvPath);
+        return ListCard(title: dataset.title, csvPath: dataset.csvPath);
       })
   );
 
