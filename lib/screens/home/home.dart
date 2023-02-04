@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../widgets/heatmap.dart';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
@@ -32,7 +34,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: const Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Heatmap(),
+        child: Heatmap(
+          locations: [
+            LatLng(49.02409926515028, -94.3653444573283),
+            LatLng(35.395348553306, -85.626772931175),
+            LatLng(27.384338444119, -82.764573877482)
+          ]
+        ),
       ),
       floatingActionButton: null, // This trailing comma makes auto-formatting nicer for build methods.
     );
