@@ -1,13 +1,15 @@
-import 'dart:async';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:heatmap/widgets/heatmap_shell.dart';
+import 'package:heatmap/utils/csv.dart';
 
 class Heatmap extends StatefulWidget {
-  const Heatmap({super.key, required this.locations});
+  const Heatmap({super.key, required this.pathToCsv});
 
-  final List<LatLng> locations;
+  final String pathToCsv;
 
   @override
   State<Heatmap> createState() => _HeatmapState();
@@ -15,36 +17,42 @@ class Heatmap extends StatefulWidget {
 
 class _HeatmapState extends State<Heatmap>
 {
-    final Completer<GoogleMapController> _controller = Completer();
+    List<LatLng> locations = [];
+    bool _loading = true;
+    bool _error = false;
 
-    final CameraPosition _murica = const CameraPosition(
-      target: LatLng(49.02409926515028, -94.3653444573283),
-      zoom: 3.25,
-    );
+    @override
+    void initState()
+    {
+      super.initState();
+
+      rootBundle.loadString(widget.pathToCsv)
+        .then((String csvString) {
+          setState(() {
+            locations = parseCsvString(csvString);
+            _loading = false;
+          });
+        })
+        .catchError((Object error) {
+          print(error);
+          setState(() {
+            _loading = false;
+            _error = true;
+          });
+        });
+    }
 
     @override
     Widget build(BuildContext buildContext)
     {
-      Set<Circle> circles = widget.locations.map((LatLng location) {
-        return Circle(
-          circleId: CircleId(location.toString()),
-          center: location,
-          radius: 100000,
-          fillColor: Colors.red.withOpacity(0.5),
-          strokeWidth: 0,
-        );
-      }).toSet();
+      if (_error) {
+        return const Center(child: Text('Error loading CSV'));
+      }
 
-      return GoogleMap(
-          mapType: MapType.normal,
-          circles: circles,
-          initialCameraPosition: _murica,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-          onCameraMove: (position) => print(position),
-          onTap: (latLng) => print(latLng),
-          myLocationButtonEnabled: false,
-        );
+      if (_loading) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      return HeatmapShell(locations: locations);
     }
 }
