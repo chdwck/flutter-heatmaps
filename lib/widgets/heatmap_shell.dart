@@ -4,6 +4,8 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'package:heatmap/style.dart';
+
 class HeatmapShell extends StatefulWidget {
   const HeatmapShell({super.key, required this.locations});
 
@@ -24,15 +26,17 @@ class _HeatmapShellState extends State<HeatmapShell>
 
     Set<Circle> circles = {};
 
-    void onMapCreated(GoogleMapController controller)
-    {
-      _controller.complete(controller);
-    }
+    bool _loaded = false;
+    bool _passedFirstRender = false;
 
-    @override
-    void initState()
-    {
-      super.initState();
+  void onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() => _loaded = true);
+    });
+  }
+
+  void updateCircles() {
       circles = widget.locations.map((LatLng location) {
         return Circle(
           circleId: CircleId(location.toString()),
@@ -42,12 +46,25 @@ class _HeatmapShellState extends State<HeatmapShell>
           strokeWidth: 0,
         );
       }).toSet();
+  }
+
+    @override
+    void initState()
+    {
+      super.initState();
+      Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          _passedFirstRender = true;
+          updateCircles();
+        });
+      });
     }
 
     @override
     Widget build(BuildContext buildContext)
     {
-      return GoogleMap(
+      return Stack(children: [
+        if (_passedFirstRender) GoogleMap(
           mapType: MapType.normal,
           circles: circles,
           initialCameraPosition: _murica,
@@ -55,6 +72,13 @@ class _HeatmapShellState extends State<HeatmapShell>
           onCameraMove: null,
           onTap: null,
           myLocationButtonEnabled: false,
-        );
+        ),
+        if (!_loaded) Container(
+          height: double.infinity,
+          color: dark800,
+          width: double.infinity,
+          child: const Center(child: CircularProgressIndicator())
+        )
+      ]);
     }
 }

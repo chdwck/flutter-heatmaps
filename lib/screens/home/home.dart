@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heatmap/style.dart';
 import 'package:heatmap/widgets/list_card.dart';
 
 class Home extends StatefulWidget {
@@ -27,7 +28,7 @@ class CsvDataset {
 class _HomeState extends State<Home> {
   final topAppBar = AppBar(
     elevation: 0.1,
-    backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
+    backgroundColor: dark900,
     title: const Text("American Heatmaps")
   );
 
@@ -59,7 +60,7 @@ class _HomeState extends State<Home> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: topAppBar,
-      backgroundColor: const Color.fromRGBO(58, 66, 86, 1.0),
+      backgroundColor: dark800,
       body: makeBody,
       floatingActionButton: null, // This trailing comma makes auto-formatting nicer for build methods.
     );

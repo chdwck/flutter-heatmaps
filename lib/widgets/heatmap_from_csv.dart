@@ -34,7 +34,6 @@ class _HeatmapFromCsvState extends State<HeatmapFromCsv>
           });
         })
         .catchError((Object error) {
-          print(error);
           setState(() {
             _loading = false;
             _error = true;

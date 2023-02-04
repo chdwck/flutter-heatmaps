@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:heatmap/screens/heatmap/heatmap.dart';
+import 'package:heatmap/style.dart';
 
 class ListCard extends StatefulWidget
 {
@@ -20,7 +21,7 @@ class _ListCardState extends State<ListCard> {
         margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
         child: Container(
             decoration:
-                const BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
+                const BoxDecoration(color: dark700),
             child: ListTile(
               title: Text(widget.title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
               trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
