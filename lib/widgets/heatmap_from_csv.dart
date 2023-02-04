@@ -6,16 +6,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:heatmap/widgets/heatmap_shell.dart';
 import 'package:heatmap/utils/csv.dart';
 
-class Heatmap extends StatefulWidget {
-  const Heatmap({super.key, required this.pathToCsv});
+class HeatmapFromCsv extends StatefulWidget {
+  const HeatmapFromCsv({super.key, required this.pathToCsv});
 
   final String pathToCsv;
 
   @override
-  State<Heatmap> createState() => _HeatmapState();
+  State<HeatmapFromCsv> createState() => _HeatmapFromCsvState();
 }
 
-class _HeatmapState extends State<Heatmap>
+class _HeatmapFromCsvState extends State<HeatmapFromCsv>
 {
     List<LatLng> locations = [];
     bool _loading = true;

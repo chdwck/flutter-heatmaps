@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Heatmap Demo',
       theme: appTheme,
-      home: const MyHomePage(title: 'Heatmap Demo'),
+      home: const Home(),
     );
   }
 }

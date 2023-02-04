@@ -24,11 +24,15 @@ class _HeatmapShellState extends State<HeatmapShell>
 
     Set<Circle> circles = {};
 
+    void onMapCreated(GoogleMapController controller)
+    {
+      _controller.complete(controller);
+    }
+
     @override
     void initState()
     {
       super.initState();
-      print("init");
       circles = widget.locations.map((LatLng location) {
         return Circle(
           circleId: CircleId(location.toString()),
@@ -38,7 +42,6 @@ class _HeatmapShellState extends State<HeatmapShell>
           strokeWidth: 0,
         );
       }).toSet();
-      print(circles.length);
     }
 
     @override
@@ -48,9 +51,7 @@ class _HeatmapShellState extends State<HeatmapShell>
           mapType: MapType.normal,
           circles: circles,
           initialCameraPosition: _murica,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
+          onMapCreated: onMapCreated,
           onCameraMove: null,
           onTap: null,
           myLocationButtonEnabled: false,
