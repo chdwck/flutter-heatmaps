@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:heatmap/style.dart';
+import 'package:heatmap/utils/heatmap.dart';
 
 class HeatmapShell extends StatefulWidget {
   const HeatmapShell({super.key, required this.locations});
@@ -37,12 +38,15 @@ class _HeatmapShellState extends State<HeatmapShell>
   }
 
   void updateCircles() {
-      circles = widget.locations.map((LatLng location) {
+     var condensed = condenseCoordinates(coordinates: widget.locations, distance: 500);
+     var colorScale = ColorScale(condensed);
+
+     circles = condensed.map((HeatmapCoordinate hCoord) {
         return Circle(
-          circleId: CircleId(location.toString()),
-          center: location,
-          radius: 100000,
-          fillColor: Colors.red.withOpacity(0.2),
+          circleId: CircleId(hCoord.toString()),
+          center: hCoord.coordinate,
+          radius: (600 * hCoord.weight).toDouble(),
+          fillColor: colorScale.color(hCoord.weight),
           strokeWidth: 0,
         );
       }).toSet();

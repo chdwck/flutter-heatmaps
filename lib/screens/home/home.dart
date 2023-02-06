@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
 
   final List<CsvDataset> datasets = [
     CsvDataset('Fast Food Restuarants', 'assets/data/fastFoodRestaurantsLatLng.csv'),
-    CsvDataset('Hospitals', 'assets/data/hospitalsLatLng.csv'),
+    CsvDataset('Hospitals', 'assets/data/hostpitalLatLng.csv'),
     CsvDataset('Broken Mcdonalds Ice Cream Machines', 'assets/data/mcdonaldsBrokenIcecreamLatLng.csv',),
     CsvDataset('Small Dataset for Testing', 'assets/data/small.csv'),
   ];
